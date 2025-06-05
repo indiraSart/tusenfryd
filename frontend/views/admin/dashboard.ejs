@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>Admin Dashboard - Tusenfryd</title>
+</head>
+<body class="admin-body">
+    <%- include('../partials/navigation') %>
+    
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <h3>Admin Panel</h3>
+            <ul>
+                <li class="active"><a href="/admin"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="/admin/attractions"><i class="fas fa-rocket"></i> Manage Attractions</a></li>
+                <li><a href="/admin/reservations"><i class="fas fa-calendar-check"></i> Reservations</a></li>
+            </ul>
+        </div>
+        
+        <div class="admin-content">
+            <h2>Dashboard</h2>
+            
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <i class="fas fa-rocket"></i>
+                    <div class="stat-info">
+                        <h3>Attractions</h3>
+                        <span class="stat-count" id="attractionCount">Loading...</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-info">
+                        <h3>Users</h3>
+                        <span class="stat-count" id="userCount">Loading...</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <div class="stat-info">
+                        <h3>Reservations</h3>
+                        <span class="stat-count" id="reservationCount">Loading...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions">
+                        <a href="/admin/attractions/new" class="btn primary-btn"><i class="fas fa-plus"></i> Add New Attraction</a>
+                        <a href="/admin/attractions" class="btn secondary-btn"><i class="fas fa-edit"></i> Edit Attractions</a>
+                        <a href="/admin/reservations" class="btn secondary-btn"><i class="fas fa-list"></i> View Reservations</a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3>System Status</h3>
+                    <div class="status-list">
+                        <div class="status-item">
+                            <span class="status-label">Server:</span>
+                            <span class="status-value status-online">Online</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Database:</span>
+                            <span class="status-value status-online">Connected</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Last Update:</span>
+                            <span class="status-value"><%= new Date().toLocaleString() %></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>Tusenfryd - Welcome</title>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+    
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to Tusenfryd</h1>
+            <p>Discover our exciting attractions and plan your visit!</p>
+            <div class="hero-buttons">
+                <a href="/attractions" class="btn primary-btn">View Attractions</a>
+                <% if (!user) { %>
+                    <a href="/register" class="btn secondary-btn">Sign Up</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <section class="features">
+        <div class="container">
+            <div class="feature-box">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>Buy Tickets</h3>
+                <p>Get your tickets online and save time</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-clock"></i>
+                <h3>Check Wait Times</h3>
+                <p>See real-time queue information</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-calendar-check"></i>
+                <h3>Reserve Queue Spots</h3>
+                <p>Skip the line with our reservation system</p>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title><%= attraction.name %> - Tusenfryd</title>
+</head>
+<body>
+    <%- include('../partials/navigation') %>
+    
+    <div class="attraction-header">
+        <div class="container">
+            <div class="back-link">
+                <a href="/attractions"><i class="fas fa-arrow-left"></i> Back to Attractions</a>
+            </div>
+            <h1><%= attraction.name %></h1>
+            <div class="attraction-meta">
+                <span class="status <%= attraction.isOpen ? 'open' : 'closed' %>">
+                    <%= attraction.isOpen ? 'Open' : 'Closed' %>
+                </span>
+                <span class="queue">
+                    <i class="fas fa-users"></i> Current Wait: <%= attraction.queue %> minutes
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <section class="attraction-details-section">
+        <div class="container">
+            <div class="attraction-content">
+                <div class="attraction-image">
+                    <!-- Placeholder image, replace with actual attraction image -->
+                    <img src="https://via.placeholder.com/600x400?text=<%= encodeURIComponent(attraction.name) %>" alt="<%= attraction.name %>">
+                </div>
+                
+                <div class="attraction-info-card">
+                    <h3>Information</h3>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <i class="far fa-clock"></i>
+                            <div>
+                                <strong>Hours</strong>
+                                <p><%= attraction.openTime %> - <%= attraction.closeTime %></p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong>Current Wait Time</strong>
+                                <p><%= attraction.queue %> minutes</p>
+                            </div>
+                        </div>
+                        <!-- Add more info items as needed -->
+                    </div>
+                </div>
+
+                <div class="attraction-description">
+                    <h2>About <%= attraction.name %></h2>
+                    <p>
+                        <!-- Replace with actual description -->
+                        Experience the thrill of <%= attraction.name %>, one of our most popular attractions! 
+                        Enjoy the excitement and create unforgettable memories with friends and family.
+                    </p>
+                </div>
+
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <div class="queue-reservation">
+                        <h2>Reserve Your Spot</h2>
+                        <% if (attraction.isOpen) { %>
+                            <form action="/reserve/<%= attraction._id %>" method="POST">
+                                <div class="form-group">
+                                    <label for="reservationTime">Select Time:</label>
+                                    <select id="reservationTime" name="time" required>
+                                        <% 
+                                        const now = new Date();
+                                        const openHour = parseInt(attraction.openTime.split(':')[0]);
+                                        const closeHour = parseInt(attraction.closeTime.split(':')[0]);
+                                        for(let i = openHour; i < closeHour; i++) {
+                                            const timeOption = `${i}:00`;
+                                            const optionDate = new Date();
+                                            optionDate.setHours(i, 0, 0, 0);
+                                            const disabled = optionDate < now ? 'disabled' : '';
+                                        %>
+                                            <option value="<%= timeOption %>" <%= disabled %>><%= timeOption %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn primary-btn">Reserve Spot</button>
+                            </form>
+                        <% } else { %>
+                            <div class="alert alert-info">
+                                <p>This attraction is currently closed. Reservations are not available.</p>
+                                <p>You can enable notifications to be alerted when it reopens.</p>
+                                <button id="notifyBtn" class="btn secondary-btn">
+                                    <i class="fas fa-bell"></i> Notify Me When Open
+                                </button>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } else { %>
+                    <div class="login-prompt">
+                        <p>Please <a href="/login">login</a> or <a href="/register">register</a> to reserve a spot in the queue.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../partials/footer') %>
+    <script>
+        // Notification functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const notifyBtn = document.getElementById('notifyBtn');
+            if (notifyBtn) {
+                notifyBtn.addEventListener('click', function() {
+                    // Request notification permission
+                    if (Notification.permission !== "granted") {
+                        Notification.requestPermission().then(function(permission) {
+                            if (permission === "granted") {
+                                alert("You will be notified when the attraction opens!");
+                            }
+                        });
+                    } else {
+                        alert("You will be notified when the attraction opens!");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>Attractions - Tusenfryd</title>
+</head>
+<body>
+    <%- include('../partials/navigation') %>
+    
+    <div class="page-header">
+        <div class="container">
+            <h1>Attractions</h1>
+            <div class="search-container">
+                <input type="text" id="searchAttractions" placeholder="Search attractions...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <section class="attractions-section">
+        <div class="container">
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="open">Open Now</button>
+                <button class="filter-btn" data-filter="short-queue">Short Queue</button>
+            </div>
+            
+            <div class="attractions-grid">
+                <% attractions.forEach(attraction => { %>
+                    <div class="attraction-card" data-status="<%= attraction.isOpen ? 'open' : 'closed' %>" data-queue="<%= attraction.queue %>">
+                        <div class="attraction-image">
+                            <!-- Placeholder image, replace with actual attraction images -->
+                            <img src="https://via.placeholder.com/300x200?text=<%= encodeURIComponent(attraction.name) %>" alt="<%= attraction.name %>">
+                            <div class="attraction-status <%= attraction.isOpen ? 'open' : 'closed' %>">
+                                <%= attraction.isOpen ? 'Open' : 'Closed' %>
+                            </div>
+                        </div>
+                        <div class="attraction-details">
+                            <h3><%= attraction.name %></h3>
+                            <div class="attraction-info">
+                                <div class="info-item">
+                                    <i class="far fa-clock"></i>
+                                    <span><%= attraction.openTime %> - <%= attraction.closeTime %></span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Wait: <%= attraction.queue %> min</span>
+                                </div>
+                            </div>
+                            <a href="/attractions/<%= attraction._id %>" class="btn secondary-btn">View Details</a>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../partials/footer') %>
+    <script src="/js/attractions.js"></script>
+</body>
+</html>

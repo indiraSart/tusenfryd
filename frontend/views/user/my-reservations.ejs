@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <title>My Reservations - Tusenfryd</title>
+    <style>
+        .reservations-container {
+            padding: 50px 0;
+        }
+        
+        .reservation-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .reservation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .reservation-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .reservation-header h3 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        
+        .reservation-status {
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .reservation-body {
+            padding: 20px;
+        }
+        
+        .reservation-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .reservation-detail i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .reservation-actions {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 20px 20px;
+            gap: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .empty-state i {
+            font-size: 5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h2 {
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .empty-state p {
+            margin-bottom: 25px;
+            color: var(--light-text);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../partials/navigation') %>
+    
+    <div class="page-header">
+        <div class="container">
+            <h1>My Reservations</h1>
+        </div>
+    </div>
+
+    <div class="reservations-container">
+        <div class="container">
+            <% if (reservations && reservations.length > 0) { %>
+                <% reservations.forEach(reservation => { %>
+                    <div class="reservation-card">
+                        <div class="reservation-header">
+                            <h3><%= reservation.attraction.name %></h3>
+                            <span class="reservation-status"><%= reservation.status %></span>
+                        </div>
+                        <div class="reservation-body">
+                            <div class="reservation-detail">
+                                <i class="far fa-clock"></i>
+                                <span>Time: <%= reservation.time %></span>
+                            </div>
+                            <div class="reservation-detail">
+                                <i class="far fa-calendar-alt"></i>
+                                <span>Date: <%= new Date(reservation.date).toLocaleDateString() %></span>
+                            </div>
+                            <% if (reservation.attraction.queue) { %>
+                                <div class="reservation-detail">
+                                    <i class="fas fa-users"></i>
+                                    <span>Current Wait: <%= reservation.attraction.queue %> minutes</span>
+                                </div>
+                            <% } %>
+                        </div>
+                        <div class="reservation-actions">
+                            <a href="/attractions/<%= reservation.attraction._id %>" class="btn secondary-btn small-btn">View Attraction</a>
+                            <form action="/reservations/<%= reservation._id %>/cancel" method="POST" style="display: inline;">
+                                <button type="submit" class="btn primary-btn small-btn">Cancel Reservation</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="empty-state">
+                    <i class="far fa-calendar-times"></i>
+                    <h2>No Reservations Yet</h2>
+                    <p>You don't have any reservations at the moment. Check out our attractions and reserve a spot to skip the lines!</p>
+                    <a href="/attractions" class="btn primary-btn">Browse Attractions</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

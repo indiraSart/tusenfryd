@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# MongoDB
+mongodb-data/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+.directory
+desktop.ini
+
+# IDE/Editor Folders
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.vs/
+*.swp
+*.swo
+
+# Misc
+.cache/
+coverage/
+.nyc_output/
+tmp/
+.tmp/
